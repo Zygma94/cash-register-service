@@ -1,44 +1,39 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using CashRegister.Models;
 
-namespace CashRegisterDBL.Controllers
+
+namespace CashRegister.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class TaskController : ControllerBase
     {
-        private readonly CashRegisterContext _context;
+        private readonly Models.CashRegisterContext _context;
 
-        public TaskController(CashRegisterContext context)
+        public TaskController(Models.CashRegisterContext context)
         {
             _context = context;
         }
 
         // GET: api/Task
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Task>>> GetTasks()
+        public async Task<ActionResult<IEnumerable<Models.Task>>> GetTasks()
         {
-          if (_context.Tasks == null)
-          {
-              return NotFound();
-          }
+            if (_context.Tasks == null)
+            {
+                return NotFound();
+            }
             return await _context.Tasks.ToListAsync();
         }
 
         // GET: api/Task/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Task>> GetTask(long id)
+        public async Task<ActionResult<Models.Task>> GetTask(long id)
         {
-          if (_context.Tasks == null)
-          {
-              return NotFound();
-          }
+            if (_context.Tasks == null)
+            {
+                return NotFound();
+            }
             var task = await _context.Tasks.FindAsync(id);
 
             if (task == null)
@@ -52,7 +47,7 @@ namespace CashRegisterDBL.Controllers
         // PUT: api/Task/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTask(long id, Task task)
+        public async Task<IActionResult> PutTask(long id, Models.Task task)
         {
             if (id != task.TaskId)
             {
@@ -83,16 +78,16 @@ namespace CashRegisterDBL.Controllers
         // POST: api/Task
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Task>> PostTask(Task task)
+        public async Task<ActionResult<Models.Task>> PostTask(Models.Task task)
         {
-          if (_context.Tasks == null)
-          {
-              return Problem("Entity set 'CashRegisterContext.Tasks'  is null.");
-          }
+            if (_context.Tasks == null)
+            {
+                return Problem("Entity set 'CashRegisterContext.Tasks'  is null.");
+            }
             _context.Tasks.Add(task);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetTask", new { id = task.TaskId }, task);
+            return CreatedAtAction(nameof(GetTask), new { id = task.TaskId }, task);
         }
 
         // DELETE: api/Task/5
