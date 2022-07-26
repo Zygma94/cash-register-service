@@ -1,8 +1,8 @@
 namespace CashRegister.Models
 {
-    public class Product
+    public class ProductRequest
     {
-        public int ProductId { get; set; }
+
 
         public string Name { get; set; } = string.Empty;
 
@@ -13,8 +13,6 @@ namespace CashRegister.Models
 
 
         public int Quantity { get; set; }
-
-        public bool IsActive { get; set; }
 
     }
 }
