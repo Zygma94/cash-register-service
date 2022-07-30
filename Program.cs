@@ -16,7 +16,7 @@ builder.Services.AddDbContext<CashRegisterContext>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || Boolean.Parse(Environment.GetEnvironmentVariable("ENABLE_SWAGGER")!))
 {
     app.UseSwagger();
     app.UseSwaggerUI();
