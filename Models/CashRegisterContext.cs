@@ -15,15 +15,14 @@ namespace CashRegister.Models
 
         public CashRegisterContext(DbContextOptions<CashRegisterContext> options, IConfiguration configuration) : base(options)
         {
-            var folder = Environment.SpecialFolder.LocalApplicationData;
-            var path = Environment.GetFolderPath(folder);
-            DbPath = Path.Join(path, configuration.GetConnectionString("SQLite"));
-            Console.WriteLine(DbPath);
+
+            DbPath = Environment.GetEnvironmentVariable("MYSQL_CONNECTION")!;
+
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            options.UseSqlite($"data source={DbPath}; foreign keys=true ");
+            options.UseMySql(DbPath, new MySqlServerVersion(new Version(5,5,62)));
         }
     }
 }
