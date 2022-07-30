@@ -106,7 +106,7 @@ namespace CashRegisterDBL.Controllers
             var total = 0;
             foreach (var productSaleRequest in saleRequest.ProductSales)
             {
-                var product = products.Find(p => p.ProductId == productSaleRequest.ProductId);
+                var product = products.Find(p => p.ProductId == productSaleRequest.ProductId && p.IsActive);
                 if (product == null || product.Quantity < productSaleRequest.Quantity)
                 {
                     return BadRequest();
