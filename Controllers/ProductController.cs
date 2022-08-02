@@ -103,9 +103,9 @@ namespace CashRegisterDBL.Controllers
             return CreatedAtAction(nameof(GetProduct), new { id = product.ProductId }, product);
         }
 
-        // DELETE: api/Product/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProduct(int id)
+        // PATCH: api/Product/Toggle/5
+        [HttpPatch("Toggle/{id}")]
+        public async Task<IActionResult> ToggleProduct(int id)
         {
             if (_context.Products == null)
             {
@@ -117,7 +117,7 @@ namespace CashRegisterDBL.Controllers
                 return NotFound();
             }
 
-            product.IsActive = false;
+            product.IsActive = !product.IsActive;
 
 
             _context.Entry(product).State = EntityState.Modified;
