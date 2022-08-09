@@ -125,17 +125,11 @@ namespace CashRegisterDBL.Controllers
             }
 
             sale.ProductSales = productSales;
-
-            if (sale.Payment < total || sale.IsLoan && !sale.IsLoan)
-            {
-                return BadRequest(new
-                {
-                    Error = "Not enough money"
-                });
-            }
-
             sale.Total = total;
             sale.Date = DateTime.Now;
+
+
+
             if (sale.IsLoan)
             {
                 sale.Payment = 0;
@@ -143,6 +137,13 @@ namespace CashRegisterDBL.Controllers
                 {
                     return BadRequest(new { Error = "The apartment number is required when it's a loan" });
                 }
+            }
+            else if (sale.Payment < total)
+            {
+                return BadRequest(new
+                {
+                    Error = "Not enough money"
+                });
             }
 
             _context.Sales.Add(sale);
