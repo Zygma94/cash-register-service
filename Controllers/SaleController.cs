@@ -136,7 +136,14 @@ namespace CashRegisterDBL.Controllers
 
             sale.Total = total;
             sale.Date = DateTime.Now;
-
+            if (sale.IsLoan)
+            {
+                sale.Payment = 0;
+                if (string.IsNullOrEmpty(sale.ApartmentNumber))
+                {
+                    return BadRequest(new { Error = "The apartment number is required when it's a loan" });
+                }
+            }
 
             _context.Sales.Add(sale);
             await _context.SaveChangesAsync();
