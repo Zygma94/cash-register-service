@@ -126,7 +126,7 @@ namespace CashRegisterDBL.Controllers
 
             sale.ProductSales = productSales;
 
-            if (sale.Payment < total)
+            if (sale.Payment < total || sale.IsLoan)
             {
                 return BadRequest(new{
                     Error = "Not enough money"
