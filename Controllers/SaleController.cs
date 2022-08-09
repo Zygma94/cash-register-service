@@ -109,7 +109,7 @@ namespace CashRegisterDBL.Controllers
                 var product = products.Find(p => p.ProductId == productSaleRequest.ProductId && p.IsActive);
                 if (product == null || product.Quantity < productSaleRequest.Quantity)
                 {
-                    return BadRequest();
+                    return BadRequest(new{Error="Product doesn't exist or inventory is not enough"});
                 }
 
 
