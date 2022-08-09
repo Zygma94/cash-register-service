@@ -109,7 +109,7 @@ namespace CashRegisterDBL.Controllers
                 var product = products.Find(p => p.ProductId == productSaleRequest.ProductId && p.IsActive);
                 if (product == null || product.Quantity < productSaleRequest.Quantity)
                 {
-                    return BadRequest(new{Error="Product doesn't exist or inventory is not enough"});
+                    return BadRequest(new { Error = "Product doesn't exist or inventory is not enough" });
                 }
 
 
@@ -126,9 +126,10 @@ namespace CashRegisterDBL.Controllers
 
             sale.ProductSales = productSales;
 
-            if (sale.Payment < total || sale.IsLoan)
+            if (sale.Payment < total || sale.IsLoan && !sale.IsLoan)
             {
-                return BadRequest(new{
+                return BadRequest(new
+                {
                     Error = "Not enough money"
                 });
             }
